@@ -1,7 +1,7 @@
-from dataclasses import fields
-from django.utils.translation import activate
+# from dataclasses import fields
+# from django.utils.translation import activate
 from rest_framework import serializers
-from app.models import WatchList , StreamPlatform
+from app.models import WatchList , StreamPlatform, Review
 
 '''
 serializer validation
@@ -17,15 +17,14 @@ core arguments
 '''
 Model Serializer
 '''
-
-class StreamPlatformSerializer(serializers.ModelSerializer):
-
-
+class ReviewSerializer(serializers.ModelSerializer):
+    
     class Meta:
-        model = StreamPlatform
+        model = Review
         fields = "__all__"
 
 class WatchListSerializer(serializers.ModelSerializer):
+    reviews = ReviewSerializer(many=True, read_only=True)
     # len_name = serializers.SerializerMethodField()
 
     class Meta:
@@ -33,6 +32,23 @@ class WatchListSerializer(serializers.ModelSerializer):
         fields = "__all__"
         # fields = ['id','name','description']
         # exclude = ['active']
+
+
+class StreamPlatformSerializer(serializers.HyperlinkedModelSerializer):
+    watchlist = WatchListSerializer(
+        many=True,
+        read_only=True,
+        )
+    # watchlist = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='movie_detail'
+    # )
+    # watchlist = serializers.StringRelatedField(many=True) # return title
+
+    class Meta:
+        model = StreamPlatform
+        fields = "__all__"
     
     # def get_len_name(self,object):
     #     return len(object.name)
