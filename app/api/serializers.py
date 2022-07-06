@@ -11,14 +11,14 @@ serializer validation
 '''
 '''
 core arguments
-
+``
 '''
 
 '''
 Model Serializer
 '''
 class ReviewSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Review
         fields = "__all__"
@@ -49,16 +49,16 @@ class StreamPlatformSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = StreamPlatform
         fields = "__all__"
-    
+
     # def get_len_name(self,object):
     #     return len(object.name)
-    
+
     # def validate(self, data):
     #     if data['name'] == data['description']:
     #         raise serializers.ValidationError("Title and Description should be different!")
     #     else:
     #         return data
-        
+
     # def validate(self, value):
     #     if len(value)<2:
     #         raise serializers.ValidationError("Name is too short!")
@@ -96,7 +96,7 @@ class StreamPlatformSerializer(serializers.HyperlinkedModelSerializer):
 #     description = serializers.CharField()
 #     active = serializers.BooleanField()
 
-# # create method for post requests 
+# # create method for post requests
 #     def create(self,validated_data):
 #         #this return gives the data to the views.py in post request method
 #         return Movie.objects.create(**validated_data)
@@ -108,7 +108,7 @@ class StreamPlatformSerializer(serializers.HyperlinkedModelSerializer):
 #         instance.active = validated_data.get('active',instance.active)
 #         instance.save()
 #         return instance
-    
+
 #     def validate(self, data):
 #         if data['name'] == data['description']:
 #             raise serializers.ValidationError("Title and Description should be different")

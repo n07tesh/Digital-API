@@ -7,9 +7,52 @@ from app.models import WatchList , StreamPlatform
 from rest_framework.response import Response
 # from rest_framework.decorators import api_view
 from app.api.serializers import StreamPlatformSerializer, WatchListSerializer
-from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework import status , generics, mixins
 
+from rest_framework.views import APIView
+from app.api.serializers import ReviewSerializer
+
+from app.models import Review
+
+class ReviewCreate(generics.CreateAPIView):
+    pass
+
+
+
+class ReviewList(generics.ListCreateAPIView):
+    # queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+### overwrite Queryset
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Review.objects.filter(watchlist=pk)
+
+
+class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+
+
+# class ReviewDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+#     queryset = Review.objects.all()
+#     serializer_class = ReviewSerializer
+
+#     def get(self, request, *args, **kwargs):
+#         return self
+
+
+
+# class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+#     queryset = Review.objects.all()   # queryset are attribute name
+#     serializer_class = ReviewSerializer  # serializer attribute name
+
+
+#     def get(self, request,*args,**kwargs):
+#         return self.list(request,*args,**kwargs)
+
+#     def post(self, request,* args,**kwargs):
+#         return self.list(request,*args,**kwargs)
 
 class StreamPlatformAV(APIView):
     def get(self,request):
